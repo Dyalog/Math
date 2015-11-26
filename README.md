@@ -1,4 +1,5 @@
 # mathdws
+
 ## A math workspace and libraries for Dyalog APL
 
 This repository contains a math workspace for Dyalog APL with functions for
@@ -7,6 +8,16 @@ discrete Fourier transforms.
 
 These functions are implemented as calls into shared libraries. Source code and
 build scripts for the libraries are included.
+
+## Using the workspace
+
+Download `math.zip` and extract the files somewhere on your computer. In order
+for Windows to find the DLLs you'll have to put them:
+
+* in the current directory (this might be determined by the properties of the
+shortcut you use to start Dyalog), or
+* in the directory containing the Dyalog executable `dyalog.exe`, or
+* somewhere on your `%PATH%`.
 
 ## Building the libraries
 
