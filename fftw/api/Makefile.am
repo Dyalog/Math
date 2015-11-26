@@ -32,7 +32,7 @@ plan-guru-dft.h plan-guru-r2r.h plan-guru-split-dft-c2r.h		\
 plan-guru-split-dft-r2c.h plan-guru-split-dft.h plan-guru64-dft-c2r.c	\
 plan-guru64-dft-r2c.c plan-guru64-dft.c plan-guru64-r2r.c		\
 plan-guru64-split-dft-c2r.c plan-guru64-split-dft-r2c.c			\
-plan-guru64-split-dft.c mktensor-iodims64.c
+plan-guru64-split-dft.c mktensor-iodims64.c dyalog.c
 
 BUILT_SOURCES = fftw3.f fftw3.f03.in fftw3.f03 fftw3l.f03 fftw3q.f03
 CLEANFILES = fftw3.f03
