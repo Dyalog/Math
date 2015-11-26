@@ -1,2 +1,4 @@
 # mathdws
-Math workspace and libraries for Dyalog APL
+## A math workspace and libraries for Dyalog APL
+
+This repository 
