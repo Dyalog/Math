@@ -7,7 +7,7 @@
     J←{⍺+¯11○⍵}                   ⍝ J's j. verb
     V2J←J/¨                       ⍝ convert old vector notation (matrix of real-cmpx pairs) to new 1J2 notation
     J2V←9 11∘○¨                   ⍝ convert new 1J2 notation to old vector notation (matrix of real-cmpx pairs)
-      Call←{(⍎⍺⍺ Assoc ⍵⍵)⍵}      ⍝ Call external fn ⍺⍺ with arg ⍺, associate with types ⍵⍵ if necessary
+    Call←{(⍎⍺⍺ Assoc ⍵⍵)⍵}        ⍝ Call external fn ⍺⍺ with arg ⍺, associate with types ⍵⍵ if necessary
     Assoc←{3=⎕NC ⍺:⍺ ⋄ ⎕NA'lapack',(¯2↑'32',⎕D∩⍨⊃# ⎕WG'APLVersion'),'|',⍺,' ',⍵} ⍝ associate external function.
 
       Dsyev←{
