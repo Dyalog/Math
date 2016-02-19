@@ -301,28 +301,7 @@
     :namespace test
 
         ∇ ok←QA
-          ok←domino∧eigen∧fourier∧bfour
-        ∇
-
-        symm←{⍵+⍉⍵}             ⍝ symmetrify
-        herm←⍉++                ⍝ hermitianise
-        rand←{(-⍵×5)+?⍵ ⍵⍴⍵×10} ⍝ random matrix size ⍵
-        posdef←{s←≢⍵ ⋄ ↑+.×/(⍉⍵)(s s⍴↑(s+1)↑¨0.1×s?100)⍵} ⍝ positive definite
-        comp←{⍵+¯11○rand≢⍵}     ⍝ complexify
-
-        ∇ ok←bfour;mats;mat;Test;complex
-        ⍝ runs 50 matrices checking that everything is as before
-          ok←1
-          Test←##.Fourier≡##.V2J∘#.Fourier∘##.J2V
-          mats←rand¨⍳50
-          :For mat :In mats
-              ok∧←Test symm mat             ⍝ real symmetric
-              ok∧←Test posdef mat           ⍝ real positive definite
-              ok∧←Test mat                  ⍝ real
-              ok∧←Test herm comp mat        ⍝ complex hermitian
-              ok∧←Test posdef herm comp mat ⍝ complex positive definite
-              ok∧←Test comp mat             ⍝ complex
-          :EndFor
+          ok←domino∧eigen∧fourier
         ∇
 
         ∇ ok←domino;⎕CT;⎕PP;n;i;j;diag;a;conj;symm;anti;herm;fuzz;Aij;Bia;Xja;LHS;RHS;x;real;⎕TRAP;⎕PATH;c0;c1;c2;c3;c4
