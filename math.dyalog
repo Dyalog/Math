@@ -307,7 +307,7 @@
         ∇ ok←domino;⎕CT;⎕PP;n;i;j;diag;a;conj;symm;anti;herm;fuzz;Aij;Bia;Xja;LHS;RHS;x;real;⎕TRAP;⎕PATH;c0;c1;c2;c3;c4
      ⍝ 48 random matrices
           ok←1
-          ⎕PATH,←' ↑'
+          ⍝⎕PATH,←' ↑'
           ⎕TRAP←(11 12)'C' '→0'
           n←15
           :For c0 :In ⍳3
@@ -382,14 +382,14 @@
                   :EndFor
               :EndFor
      ⍝------------------------------------------------------
-              Xja←J2V(V2J Bia)Domino(V2J Aij)
+              Xja←##.J2V(##.V2J Bia)##.Domino(##.V2J Aij)
      ⍝------------------------------------------------------
               :If real Xja
                   :Trap 11              ⍝ A might be 0
-                      ok∧←∧/∊Xja=fuzz Bia⌹Aij  ⍝ compare with APL matrix divide
+                      ok∧←∧/∊(##.V2J Xja)=fuzz(##.V2J Bia⌹Aij)  ⍝ compare with APL matrix divide
                   :End
               :Else  ⍝ complex
-                  ok∧←∧/∊Bia=fuzz Aij+.x Xja
+                  ok∧←∧/∊(##.V2J Bia)=fuzz(##.V2J Aij+.x Xja)
               :End
           :EndFor
         ∇
@@ -398,7 +398,7 @@
         ∇ ok←fourier;⎕PATH;⎕IO;x;fuzz;th;n;Xn;Yn;Zn;Kn;Ln;In;Inn;Enn;i;j  ⍝ Complex 1-D test of Fourier
         ⍝ runs 48 random matrices
           ok←1
-          ⎕PATH,←' ↑'
+          ⍝⎕PATH,←' ↑'
           ⎕IO←1
           x←{                         ⍝ complex multiply
               sign←2 2⍴1 ¯1 1 1
@@ -411,7 +411,7 @@
                   ⍝'' ⋄ 'n is ',⍕⍴th
                   Xn←2↑¨⊃+/,1 2∘.○(⊂th)×¨6?6 ⍝ try a step function like Xn←2↑¨(50⍴1),(50⍴2)
                   ⍝------------------------------
-                  Kn←J2V Fourier V2J Xn
+                  Kn←##.J2V ##.Fourier ##.V2J Xn
                   ⍝now test answer
                   n←⍴Xn
                   In←(⍳n)-⎕IO
@@ -422,7 +422,7 @@
                   ⍝'Does APL model give same answers?'
                   ok∧←∧/∊Ln=fuzz Kn ⍝ 'APL≡Fourier?'
                   ⍝------------------------------
-                  Yn←J2V ¯1 Fourier V2J Kn
+                  Yn←##.J2V ¯1 ##.Fourier ##.V2J Kn
                   ⍝now test answer
                   ⍝'Does Inverse Fourier return original argument?'
                   ok∧←∧/∊Xn=fuzz Yn
@@ -439,7 +439,7 @@
         ∇ ok←eigen;⎕CT;⎕PP;i;Aii;Eji;real;fuzz;⎕PATH;x;norm;conj;anti;symm;herm;diag;j;k;l
         ⍝ 48 random matrices
           ok←1
-          ⎕PATH,←' ↑'
+          ⍝⎕PATH,←' ↑'
           x←{                    ⍝ complex multiply
               sign←2 2⍴1 ¯1 1 1
               +/sign×0 1⊖(2↑⍺)∘.×2↑⍵
@@ -485,7 +485,7 @@
                           :End
                           :Trap 11
 ⍝-------------------------------------------------------------
-                              Eji←J2V Eigen V2J Aii       ⍝N.B. should choose?  Eii←Eii××+/×,Eii
+                              Eji←##.J2V ##.Eigen ##.V2J Aii       ⍝N.B. should choose?  Eii←Eii××+/×,Eii
 ⍝-------------------------------------------------------------
                           ⍝⌊0.5+⊃↓Eji ⍝ check pos def case
                           :Else
