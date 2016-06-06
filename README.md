@@ -2,7 +2,7 @@
 
 ## A math workspace and libraries for Dyalog APL
 
-This repository contains a math workspace for Dyalog APL with functions for
+This repository contains a math namespace for Dyalog APL with functions for
 finding eigenvalues and eigenvectors, matrix inversion and division, and
 discrete Fourier transforms.
 

@@ -1,6 +1,6 @@
 DLLS := fftw32.dll fftw64.dll lapack32.dll lapack64.dll
 
-math.zip: math.dws $(DLLS)
+math.zip: math.dyalog $(DLLS)
 	zip $@ $^
 
 fftw32.dll: | build-fftw32
