@@ -1,6 +1,6 @@
 # mathdws
 
-## A math workspace and libraries for Dyalog APL
+## A math namespace and libraries for Dyalog APL
 
 This repository contains a math namespace for Dyalog APL with functions for
 finding eigenvalues and eigenvectors, matrix inversion and division, and
@@ -9,7 +9,7 @@ discrete Fourier transforms.
 These functions are implemented as calls into shared libraries. Source code and
 build scripts for the libraries are included.
 
-## Using the workspace
+## Using the namespace
 
 Download `math.zip` and extract the files somewhere on your computer. In order
 for Windows to find the DLLs you'll have to put them:
