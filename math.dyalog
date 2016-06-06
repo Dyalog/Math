@@ -132,7 +132,10 @@
     V2J←J/¨                       ⍝ convert old vector notation (matrix of real-cmpx pairs) to new 1J2 notation
     J2V←9 11∘○¨                   ⍝ convert new 1J2 notation to old vector notation (matrix of real-cmpx pairs)
     Call←{(⍎⍺⍺ Assoc ⍵⍵)⍵}        ⍝ Call external fn ⍺⍺ with arg ⍺, associate with types ⍵⍵ if necessary
-    Assoc←{3=⎕NC ⍺:⍺ ⋄ ⎕NA'lapack',(¯2↑'32',⎕D∩⍨⊃# ⎕WG'APLVersion'),'|',⍺,' ',⍵} ⍝ associate external function.
+      Assoc←{3=⎕NC ⍺:⍺
+          call←'lapack',(¯2↑'32',⎕D∩⍨⊃# ⎕WG'APLVersion'),'|',⍺,' ',⍵
+          0::'*** ERROR ',(⍕⎕EN),': ⎕NA''',call,''
+          ⎕NA call}
 
       Dsyev←{
     ⍝  JOBZ  UPLO  N  A  LDA  W  WORK  LWORK  INFO
@@ -301,7 +304,16 @@
     :namespace test
 
         ∇ ok←QA
-          ok←domino∧eigen∧fourier
+          ok←⍬
+          :Trap 0
+              :For fn :In 'domino' 'eigen' 'fourier'
+                  ok,←⍎fn
+              :EndFor
+          :Else
+              '*** FAILED: math.test.',fn
+              ok←0
+          :EndTrap
+          ok←∧/ok
         ∇
 
         ∇ ok←domino;⎕CT;⎕PP;n;i;j;diag;a;conj;symm;anti;herm;fuzz;Aij;Bia;Xja;LHS;RHS;x;real;⎕TRAP;⎕PATH;c0;c1;c2;c3;c4
