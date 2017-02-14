@@ -1,4 +1,4 @@
-# mathdws
+# Math
 
 ## A math namespace and libraries for Dyalog APL
 
