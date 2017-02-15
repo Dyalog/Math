@@ -1,4 +1,4 @@
-﻿:Namespace math
+﻿:Namespace Math
 
     ⎕IO←1
     ⎕ML←1                         ⍝ ∊ is enlist
