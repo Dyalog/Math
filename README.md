@@ -3,8 +3,7 @@
 ## A math namespace and libraries for Dyalog APL
 
 This repository contains a math namespace for Dyalog APL with functions for
-finding eigenvalues and eigenvectors, matrix inversion and division, and
-discrete Fourier transforms.
+finding eigenvalues, eigenvectors and discrete Fourier transforms.
 
 These functions are implemented as calls into shared libraries. Source code and
 build scripts for the libraries are included.
