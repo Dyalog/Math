@@ -134,7 +134,7 @@
     Call←{(⍎⍺⍺ Assoc ⍵⍵)⍵}        ⍝ Call external fn ⍺⍺ with arg ⍺, associate with types ⍵⍵ if necessary
       Assoc←{3=⎕NC ⍺:⍺
           call←'lapack',(¯2↑'32',⎕D∩⍨⊃# ⎕WG'APLVersion'),'|',⍺,' ',⍵
-          0::'*** ERROR ',(⍕⎕EN),': ⎕NA''',call,''
+          0::'*** ERROR ',(⍕⎕EN),': ⎕NA''',call,''''
           ⎕NA call}
 
       Dsyev←{
