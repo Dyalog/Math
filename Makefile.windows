@@ -1,0 +1,36 @@
+ZIPFILE := Math-windows.zip
+
+DLLS := build-windows-fftw32/fftw32.dll build-windows-fftw64/fftw64.dll build-windows-lapack32/lapack32.dll build-windows-lapack64/lapack64.dll
+
+# See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=46539#c3
+export LDFLAGS := -static-libgcc
+export LDLIBS := -Wl,-Bstatic -lgfortran -lquadmath -Wl,-Bdynamic -lm
+
+$(ZIPFILE): Math.dyalog $(DLLS)
+	zip -j $@ $^
+
+build-windows-fftw32/Makefile: | build-windows-fftw32
+	cd build-windows-fftw32 && ../fftw/configure --host=mingw32 --disable-alloca --with-our-malloc16 --with-windows-f77-mangling --enable-shared --disable-static --with-incoming-stack-boundary=2 --enable-sse2 --enable-avx CC=i686-w64-mingw32-gcc
+
+build-windows-fftw32/fftw32.dll: build-windows-fftw32/Makefile
+	$(MAKE) -C build-windows-fftw32 CCLD="i686-w64-mingw32-gcc -Wc,-static-libgcc"
+	cp build-windows-fftw32/.libs/libfftw3-3.dll $@
+
+build-windows-fftw64/Makefile: | build-windows-fftw64
+	cd build-windows-fftw64 && ../fftw/configure --host=mingw32 --disable-alloca --with-our-malloc16 --with-windows-f77-mangling --enable-shared --disable-static --with-incoming-stack-boundary=2 --enable-sse2 --enable-avx CC=x86_64-w64-mingw32-gcc
+
+build-windows-fftw64/fftw64.dll: build-windows-fftw64/Makefile
+	$(MAKE) -C build-windows-fftw64 CCLD="x86_64-w64-mingw32-gcc -Wc,-static-libgcc"
+	cp build-windows-fftw64/.libs/libfftw3-3.dll $@
+
+build-windows-lapack32/lapack32.dll: | build-windows-lapack32
+	$(MAKE) -C build-windows-lapack32 -f ../Makefile.lapack CC=i686-w64-mingw32-gcc FC=i686-w64-mingw32-gfortran LAPACKLIB=$(notdir $@)
+
+build-windows-lapack64/lapack64.dll: | build-windows-lapack64
+	$(MAKE) -C build-windows-lapack64 -f ../Makefile.lapack CC=x86_64-w64-mingw32-gcc FC=x86_64-w64-mingw32-gfortran LAPACKLIB=$(notdir $@)
+
+build-windows-%:
+	mkdir $@
+
+clean:
+	rm -rf $(ZIPFILE) build-windows-*

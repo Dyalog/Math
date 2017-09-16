@@ -1,6 +1,6 @@
 VPATH := ../lapack/SRC:../lapack/BLAS/SRC:../lapack/INSTALL
 
-FFLAGS := -O2
+FFLAGS := -fPIC -O2
 
 SRCS := \
 	daxpy.f \
@@ -194,13 +194,11 @@ SRCS := \
 
 OBJS := $(patsubst %.f,%.o,$(SRCS))
 
-# See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=46539#c3
-LDFLAGS := -shared -static-libgcc
-LDLIBS := -Wl,-Bstatic -lgfortran -lquadmath -Wl,-Bdynamic -lm
+LDFLAGS += -shared
 
-lapack.dll: $(OBJS)
+$(LAPACKLIB): $(OBJS)
 	$(LINK.c) $^ $(LDLIBS) -o $@
 
 %.o: ../lapack/%.f
 	@mkdir -p $(dir $@)
-	$(COMPILE.f) $(OUTPUT_OPTION) $<
+	$(COMPILE.f) -fPIC $(OUTPUT_OPTION) $<

@@ -1,0 +1,33 @@
+ZIPFILE := Math-linux.zip
+DLLS := build-linux-fftw32/fftw32.so build-linux-fftw64/fftw64.so build-linux-lapack32/lapack32.so build-linux-lapack64/lapack64.so
+
+export LDLIBS := -lgfortran
+
+$(ZIPFILE): Math.dyalog $(DLLS)
+	zip -j $@ $^
+
+build-linux-fftw32/Makefile: | build-linux-fftw32
+	cd build-linux-fftw32 && ../fftw/configure --enable-shared --disable-static --enable-sse2 --enable-avx CC="gcc -m32" && $(MAKE)
+
+build-linux-fftw32/fftw32.so: build-linux-fftw32/Makefile
+	$(MAKE) -C build-linux-fftw32
+	cp build-linux-fftw32/.libs/libfftw3.so $@
+
+build-linux-fftw64/Makefile: | build-linux-fftw64
+	cd build-linux-fftw64 && ../fftw/configure --enable-shared --disable-static --enable-sse2 --enable-avx CC="gcc -m64"
+
+build-linux-fftw64/fftw64.so: build-linux-fftw64/Makefile
+	$(MAKE) -C build-linux-fftw64
+	cp build-linux-fftw64/.libs/libfftw3.so $@
+
+build-linux-lapack32/lapack32.so: | build-linux-lapack32
+	$(MAKE) -C build-linux-lapack32 -f ../Makefile.lapack CC="gcc -m32" FC="gfortran -m32" LAPACKLIB=$(notdir $@)
+
+build-linux-lapack64/lapack64.so: | build-linux-lapack64
+	$(MAKE) -C build-linux-lapack64 -f ../Makefile.lapack CC="gcc -m64" FC="gfortran -m64" LAPACKLIB=$(notdir $@)
+
+build-linux-%:
+	mkdir $@
+
+clean:
+	rm -rf $(ZIPFILE) build-linux-*
