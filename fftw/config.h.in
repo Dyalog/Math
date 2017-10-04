@@ -1,5 +1,11 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
+/* Define if CNTVCT is 64 bits readable on armv7a */
+#undef ARMV7A_HAS_CNTCVT
+
+/* Define if CNTVCT_EL0 is 64 bits readable on armv8 */
+#undef ARMV8_HAS_CNTCVT_EL0
+
 /* Define to compile in long-double precision. */
 #undef BENCHFFT_LDOUBLE
 
@@ -80,8 +86,20 @@
 /* Define to 1 if you have the <altivec.h> header file. */
 #undef HAVE_ALTIVEC_H
 
+/* Define if you have enabled the cycle counter on ARMv8 */
+#undef HAVE_ARMV8CC
+
 /* Define to enable AVX optimizations. */
 #undef HAVE_AVX
+
+/* Define to enable AVX2 optimizations. */
+#undef HAVE_AVX2
+
+/* Define to enable AVX512 optimizations. */
+#undef HAVE_AVX512
+
+/* Define to enable 128-bit FMA AVX optimization */
+#undef HAVE_AVX_128_FMA
 
 /* Define to 1 if you have the `BSDgettimeofday' function. */
 #undef HAVE_BSDGETTIMEOFDAY
@@ -139,6 +157,12 @@
 /* Define if you have a machine with fused multiply-add */
 #undef HAVE_FMA
 
+/* Define to enable generic (gcc) 128-bit SIMD optimizations. */
+#undef HAVE_GENERIC_SIMD128
+
+/* Define to enable generic (gcc) 256-bit SIMD optimizations. */
+#undef HAVE_GENERIC_SIMD256
+
 /* Define to 1 if you have the `gethrtime' function. */
 #undef HAVE_GETHRTIME
 
@@ -156,6 +180,9 @@
 
 /* Define if the isnan() function/macro is available. */
 #undef HAVE_ISNAN
+
+/* Define to enable KCVI optimizations. */
+#undef HAVE_KCVI
 
 /* Define to 1 if you have the <libintl.h> header file. */
 #undef HAVE_LIBINTL_H
@@ -270,6 +297,9 @@
 
 /* Define to 1 if you have the `vprintf' function. */
 #undef HAVE_VPRINTF
+
+/* Define to enable IBM VSX optimizations. */
+#undef HAVE_VSX
 
 /* Define to 1 if you have the `_mm_free' function. */
 #undef HAVE__MM_FREE

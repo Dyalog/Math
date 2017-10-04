@@ -7,14 +7,14 @@ $(ZIPFILE): Math.dyalog $(DLLS)
 	zip -j $@ $^
 
 build-linux-fftw32/Makefile: | build-linux-fftw32
-	cd build-linux-fftw32 && ../fftw/configure --enable-shared --disable-static --enable-sse2 --enable-avx CC="gcc -m32" && $(MAKE)
+	cd build-linux-fftw32 && ../fftw/configure --enable-shared --disable-static --enable-sse2 --enable-avx --enable-avx2 CC="gcc -m32" && $(MAKE)
 
 build-linux-fftw32/fftw32.so: build-linux-fftw32/Makefile
 	$(MAKE) -C build-linux-fftw32
 	cp build-linux-fftw32/.libs/libfftw3.so $@
 
 build-linux-fftw64/Makefile: | build-linux-fftw64
-	cd build-linux-fftw64 && ../fftw/configure --enable-shared --disable-static --enable-sse2 --enable-avx CC="gcc -m64"
+	cd build-linux-fftw64 && ../fftw/configure --enable-shared --disable-static --enable-sse2 --enable-avx --enable-avx2 CC="gcc -m64"
 
 build-linux-fftw64/fftw64.so: build-linux-fftw64/Makefile
 	$(MAKE) -C build-linux-fftw64

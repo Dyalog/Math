@@ -94,7 +94,7 @@ int X(guru64_kosherp)(int rank, const X(iodim64) *dims,
 
 FFTW_EXTERN printer *X(mkprinter_file)(FILE *f);
 
-printer *X(mkprinter_cnt)(int *cnt);
+printer *X(mkprinter_cnt)(size_t *cnt);
 printer *X(mkprinter_str)(char *s);
 
 FFTW_EXTERN planner *X(the_planner)(void);
@@ -105,6 +105,10 @@ void X(mapflags)(planner *, unsigned);
 apiplan *X(mkapiplan)(int sign, unsigned flags, problem *prb);
 
 rdft_kind *X(map_r2r_kind)(int rank, const X(r2r_kind) * kind);
+
+typedef void (*planner_hook_t)(void);
+                                                     
+void X(set_planner_hooks)(planner_hook_t before, planner_hook_t after);
 
 #ifdef __cplusplus
 }  /* extern "C" */

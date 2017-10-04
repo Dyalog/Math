@@ -10,14 +10,14 @@ $(ZIPFILE): Math.dyalog $(DLLS)
 	zip -j $@ $^
 
 build-windows-fftw32/Makefile: | build-windows-fftw32
-	cd build-windows-fftw32 && ../fftw/configure --host=mingw32 --disable-alloca --with-our-malloc16 --with-windows-f77-mangling --enable-shared --disable-static --with-incoming-stack-boundary=2 --enable-sse2 --enable-avx CC=i686-w64-mingw32-gcc
+	cd build-windows-fftw32 && ../fftw/configure --host=mingw32 --disable-alloca --with-our-malloc16 --with-windows-f77-mangling --enable-shared --disable-static --with-incoming-stack-boundary=2 --enable-sse2 --enable-avx --enable-avx2 CC=i686-w64-mingw32-gcc
 
 build-windows-fftw32/fftw32.dll: build-windows-fftw32/Makefile
 	$(MAKE) -C build-windows-fftw32 CCLD="i686-w64-mingw32-gcc -Wc,-static-libgcc"
 	cp build-windows-fftw32/.libs/libfftw3-3.dll $@
 
 build-windows-fftw64/Makefile: | build-windows-fftw64
-	cd build-windows-fftw64 && ../fftw/configure --host=mingw32 --disable-alloca --with-our-malloc16 --with-windows-f77-mangling --enable-shared --disable-static --with-incoming-stack-boundary=2 --enable-sse2 --enable-avx CC=x86_64-w64-mingw32-gcc
+	cd build-windows-fftw64 && ../fftw/configure --host=mingw32 --disable-alloca --with-our-malloc16 --with-windows-f77-mangling --enable-shared --disable-static --with-incoming-stack-boundary=2 --enable-sse2 --enable-avx --enable-avx2 CC=x86_64-w64-mingw32-gcc
 
 build-windows-fftw64/fftw64.dll: build-windows-fftw64/Makefile
 	$(MAKE) -C build-windows-fftw64 CCLD="x86_64-w64-mingw32-gcc -Wc,-static-libgcc"

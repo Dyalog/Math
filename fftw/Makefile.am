@@ -30,8 +30,16 @@ else
 CHICKEN_EGG=. threads
 endif
 
+# Only build in doc/ if not disabled by user (i.e. not all
+# tools are available, such as fig2dev in maintainer mode)
+if BUILD_DOC
+DOCDIR=doc
+else
+DOCDIR=
+endif
+
 SUBDIRS=support $(GENFFT) kernel simd-support dft rdft reodft api	\
-libbench2 $(CHICKEN_EGG) tests mpi doc tools m4
+libbench2 $(CHICKEN_EGG) tests mpi $(DOCDIR) tools m4
 EXTRA_DIST=COPYRIGHT bootstrap.sh CONVENTIONS fftw.pc.in
 
 SIMD_LIBS =						\
@@ -48,14 +56,51 @@ AVX_LIBS = dft/simd/avx/libdft_avx_codelets.la	\
 rdft/simd/avx/librdft_avx_codelets.la
 endif
 
+if HAVE_AVX_128_FMA
+AVX_128_FMA_LIBS = dft/simd/avx-128-fma/libdft_avx_128_fma_codelets.la \
+rdft/simd/avx-128-fma/librdft_avx_128_fma_codelets.la
+endif
+
+if HAVE_AVX2
+AVX2_LIBS = dft/simd/avx2/libdft_avx2_codelets.la	\
+dft/simd/avx2-128/libdft_avx2_128_codelets.la \
+rdft/simd/avx2/librdft_avx2_codelets.la \
+rdft/simd/avx2-128/librdft_avx2_128_codelets.la
+endif
+
+if HAVE_AVX512
+AVX512_LIBS = dft/simd/avx512/libdft_avx512_codelets.la	\
+rdft/simd/avx512/librdft_avx512_codelets.la
+endif
+
+if HAVE_KCVI
+KCVI_LIBS = dft/simd/kcvi/libdft_kcvi_codelets.la	\
+rdft/simd/kcvi/librdft_kcvi_codelets.la
+endif
+
 if HAVE_ALTIVEC
 ALTIVEC_LIBS = dft/simd/altivec/libdft_altivec_codelets.la	\
 rdft/simd/altivec/librdft_altivec_codelets.la
 endif
 
+if HAVE_VSX
+VSX_LIBS = dft/simd/vsx/libdft_vsx_codelets.la      \
+rdft/simd/vsx/librdft_vsx_codelets.la
+endif
+
 if HAVE_NEON
 NEON_LIBS = dft/simd/neon/libdft_neon_codelets.la	\
 rdft/simd/neon/librdft_neon_codelets.la
+endif
+
+if HAVE_GENERIC_SIMD128
+GENERIC_SIMD128_LIBS = dft/simd/generic-simd128/libdft_generic_simd128_codelets.la \
+rdft/simd/generic-simd128/librdft_generic_simd128_codelets.la
+endif
+
+if HAVE_GENERIC_SIMD256
+GENERIC_SIMD256_LIBS = dft/simd/generic-simd256/libdft_generic_simd256_codelets.la      \
+rdft/simd/generic-simd256/librdft_generic_simd256_codelets.la
 endif
 
 if THREADS
@@ -78,15 +123,18 @@ libfftw3@PREC_SUFFIX@_la_LIBADD =			\
 	rdft/scalar/r2r/librdft_scalar_r2r.la		\
 	reodft/libreodft.la				\
 	api/libapi.la					\
-        $(SIMD_LIBS) $(SSE2_LIBS) $(AVX_LIBS) $(ALTIVEC_LIBS) $(NEON_LIBS)    	\
+        $(SIMD_LIBS) $(SSE2_LIBS) $(AVX_LIBS) $(AVX_128_FMA_LIBS) \
+        $(AVX2_LIBS) $(ALTIVEC_LIBS) \
+        $(VSX_LIBS) $(NEON_LIBS) $(KCVI_LIBS) $(AVX512_LIBS) \
+        $(GENERIC_SIMD128_LIBS) $(GENERIC_SIMD256_LIBS) \
 	$(COMBINED_THREADLIBS)
 
 if QUAD
 # cannot use -no-undefined since dependent on libquadmath
-libfftw3@PREC_SUFFIX@_la_LDFLAGS = -version-info @SHARED_VERSION_INFO@
+libfftw3@PREC_SUFFIX@_la_LDFLAGS = -version-info @SHARED_VERSION_INFO@ $(ENVIRONMENT_LIBFFTW3_LDFLAGS)
 else
 libfftw3@PREC_SUFFIX@_la_LDFLAGS = -no-undefined -version-info	\
-@SHARED_VERSION_INFO@
+@SHARED_VERSION_INFO@  $(ENVIRONMENT_LIBFFTW3_LDFLAGS)
 endif
 
 fftw3@PREC_SUFFIX@.pc: fftw.pc
