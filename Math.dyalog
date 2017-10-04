@@ -133,7 +133,10 @@
     J2V←9 11∘○¨                   ⍝ convert new 1J2 notation to old vector notation (matrix of real-cmpx pairs)
     Call←{(⍎⍺⍺ Assoc ⍵⍵)⍵}        ⍝ Call external fn ⍺⍺ with arg ⍺, associate with types ⍵⍵ if necessary
       Assoc←{3=⎕NC ⍺:⍺
-          call←'lapack',(¯2↑'32',⎕D∩⍨⊃# ⎕WG'APLVersion'),'|',⍺,' ',⍵
+          plat←⊃# ⎕WG'APLVersion'
+          bits←¯2↑'32',⎕D∩⍨plat
+          ext←'.so'/⍨'Linux'≡5↑plat
+          call←'lapack',bits,ext,'|',⍺,' ',⍵
           0::'*** ERROR ',(⍕⎕EN),': ⎕NA''',call,''''
           ⎕NA call}
 
@@ -202,11 +205,14 @@
     ∇
 
     Fourier←{⍺←1 ⋄ ⍵ RunFn 'idft' 'dft'⊃⍨1+0⌈⍺}
-    ∇ data←data RunFn func;rank;shape;count ⍝ n-D Discrete Fourier Transformation
+    ∇ data←data RunFn func;rank;shape;count;plat;bits;ext ⍝ n-D Discrete Fourier Transformation
       (rank count)←(⍴,×/)shape←⍴data
       :If 1<count ⍝ non-scalar
           :If 3≠⎕NC func ⍝ associate external function if it does not exist
-              ⎕NA'fftw',(¯2↑'32',⎕D∩⍨⊃# ⎕WG'APLVersion'),'|',func,'<I4 <I4[] =J16[]'
+              plat←⊃# ⎕WG'APLVersion'
+              bits←¯2↑'32',⎕D∩⍨plat
+              ext←'.so'/⍨'Linux'≡5↑plat
+              ⎕NA'fftw',bits,ext,'|',func,'<I4 <I4[] =J16[]'
           :EndIf
           data←(count*0.5)÷⍨shape⍴(⍎func)rank shape,⊂∊data ⍝ Normalized Fourier/Inverse Fourier transform
       :EndIf
