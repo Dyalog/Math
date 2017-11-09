@@ -57,7 +57,9 @@ Trace the following line in order to see `Eigen` in action:
 
 ### `Domino`
 
-`Domino` is equivalent to APL's primitive `⌹` function.
+`Domino` is a cover function for APL's primitive `⌹` function.
+It has been included for backwards compatibility with the Math workspace
+which was supplied with previous versions of Dyalog APL.
 
 Trace the following line in order to see `Domino` in action:
 
