@@ -1,2 +1,2 @@
-fftw linguist-vendored
-lapack linguist-vendored
+fftw/* linguist-vendored
+lapack/* linguist-vendored
