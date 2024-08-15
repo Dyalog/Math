@@ -18,6 +18,8 @@ shortcut you use to start Dyalog), or
 * in the directory containing the Dyalog executable `dyalog.exe`, or
 * somewhere on your `%PATH%`.
 
+Now import the namespace using e.g. `]get path/to/Math.dyalog` or `⎕FIX'file://path/to/Math.dyalog'`.
+
 The functions in this namespace include complex arithmetic. Dyalog
 represents complex numbers *a+bi* as `aJb`.
 
