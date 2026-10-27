@@ -1,0 +1,33 @@
+ZIPFILE := Math-mac.zip
+DLLS := build-mac-fftw64/fftw64.dylib build-mac-lapack64/lapack64.dylib
+
+# Requires Homebrew gcc for gfortran. Dyalog on Apple Silicon is 64-bit only.
+FC := gfortran
+ARCH := -arch arm64
+
+# Homebrew gcc's linker needs to be told where the macOS SDK is.
+export SDKROOT := $(shell xcrun --show-sdk-path)
+
+# Link the gfortran runtime statically so the dylib has no Homebrew dependency.
+export LDFLAGS := -static-libgfortran -static-libquadmath -static-libgcc
+
+$(ZIPFILE): Math.dyalog $(DLLS)
+	zip -j $@ $^
+
+build-mac-fftw64/Makefile: | build-mac-fftw64
+	cd build-mac-fftw64 && ../fftw/configure --enable-shared --disable-static --disable-fortran CC="clang $(ARCH)" LDFLAGS=
+
+build-mac-fftw64/fftw64.dylib: build-mac-fftw64/Makefile
+	$(MAKE) -C build-mac-fftw64 LDFLAGS=
+	cp build-mac-fftw64/.libs/libfftw3.dylib $@
+	install_name_tool -id @rpath/$(notdir $@) $@
+
+build-mac-lapack64/lapack64.dylib: | build-mac-lapack64
+	$(MAKE) -C build-mac-lapack64 -f ../Makefile.lapack CC="$(FC) $(ARCH)" FC="$(FC) $(ARCH)" LAPACKLIB=$(notdir $@)
+	install_name_tool -id @rpath/$(notdir $@) $@
+
+build-mac-%:
+	mkdir $@
+
+clean:
+	rm -rf $(ZIPFILE) build-mac-*
