@@ -135,7 +135,7 @@
       Assoc←{3=⎕NC ⍺:⍺
           plat←⊃# ⎕WG'APLVersion'
           bits←¯2↑'32',⎕D∩⍨plat
-          ext←(('Lin' 'Mac')⍳⊂3↑plat)⊃'.so' '.dylib' ''
+          ext←('Lin' 'Mac'⍳⊂3↑plat)⊃'.so' '.dylib' ''
           call←'lapack',bits,ext,'|',⍺,' ',⍵
           0::'*** ERROR ',(⍕⎕EN),': ⎕NA''',call,''''
           ⎕NA call}
@@ -211,7 +211,7 @@
           :If 3≠⎕NC func ⍝ associate external function if it does not exist
               plat←⊃# ⎕WG'APLVersion'
               bits←¯2↑'32',⎕D∩⍨plat
-              ext←(('Lin' 'Mac')⍳⊂3↑plat)⊃'.so' '.dylib' ''
+              ext←('Lin' 'Mac'⍳⊂3↑plat)⊃'.so' '.dylib' ''
               ⎕NA'fftw',bits,ext,'|',func,'<I4 <I4[] =J16[]'
           :EndIf
           data←(count*0.5)÷⍨shape⍴(⍎func)rank shape,⊂∊data ⍝ Normalized Fourier/Inverse Fourier transform
