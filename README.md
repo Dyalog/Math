@@ -18,6 +18,12 @@ shortcut you use to start Dyalog), or
 * in the directory containing the Dyalog executable `dyalog.exe`, or
 * somewhere on your `%PATH%`.
 
+On macOS (Apple Silicon) put `fftw64.dylib` and `lapack64.dylib` in the
+current directory of the Dyalog session. If you downloaded the zip, remove
+the quarantine flag macOS adds, or the libraries will be refused:
+
+    xattr -d com.apple.quarantine fftw64.dylib lapack64.dylib
+
 Now import the namespace using e.g. `]get path/to/Math.dyalog` or `⎕FIX'file://path/to/Math.dyalog'`.
 
 The functions in this namespace include complex arithmetic. Dyalog
@@ -129,6 +135,7 @@ To see an example of these functions, type:
 
 The supported build configurations are:
 * Linux (x86 and x86-64)
+* macOS (Apple Silicon, arm64)
 * Cross-compiling from Linux to Windows (x86 and x86-64)
 
 To build natively:
@@ -144,3 +151,13 @@ To cross-compile (tested on Ubuntu 17.04):
 `sudo apt-get install gfortran-mingw-w64`
 * `cd` into the root of the repository
 * type `make -f Makefile.windows` to make `Math-windows.zip`
+
+To build on macOS (Apple Silicon):
+
+* install Xcode or the Command Line Tools, and a Fortran compiler with
+`brew install gcc`
+* `cd` into the root of the repository
+* type `make -f Makefile.mac` to make `Math-mac.zip`
+
+The gfortran runtime is linked statically, so the resulting dylibs depend
+only on macOS system libraries.
