@@ -422,7 +422,7 @@
               sign←2 2⍴1 ¯1 1 1
               +/sign×0 1⊖(2↑⍺)∘.×2↑⍵
           }
-          fuzz←{⎕CT←2*¯32 ⋄ (⍺+○1)⍺⍺ ⍵+○1}
+          fuzz←{⎕CT←2*¯32 ⋄ (⍺ ⍺⍺ ⍵)∨⎕CT≥|⍺-⍵} ⍝ relative tolerance, or absolute near zero
           :For i :In 8?200
               :For j :In 6?100
                   th←(⍳i)÷j ⍝ th←(⍳?200)÷?100
